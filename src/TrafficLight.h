@@ -46,7 +46,11 @@ class TrafficLight : TrafficObject
 public:
     // constructor / desctructor
     TrafficLight();
-    ~TrafficLight() = default;
+    ~TrafficLight()
+    {
+        // set up thread barrier before this object is destroyed
+        std::for_each(threads.begin(), threads.end(), [](auto& t){t.join();})
+    }
 
     // getters / setters
     TrafficLightPhase getCurrentPhase();
